@@ -1,0 +1,70 @@
+{
+  "name": "openai-test-api",
+  "version": "1.0.0",
+  "description": "Test API for interacting with OpenAI API",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "nodemon -r tsconfig-paths/register src/index.ts",
+    "server:prod": "npm run build && NODE_ENV=production node -r tsconfig-paths/register ./dist/src/index.js",
+    "server:prod:docker": "node -r tsconfig-paths/register ./src/index.js",
+    "prepare": "husky",
+    "build": "ts-node build.ts && tsc-alias -p tsconfig.json",
+    "test": "jest --config=jest.config.js",
+    "test:coverage": "jest --config=jest.config.js --coverage",
+    "lint": "eslint src --cache --ext .ts",
+    "lint:fix": "eslint src --cache --fix --ext .ts",
+    "pre-commit": "lint-staged",
+    "debug": "nodemon -e ts,tsx --exec node -r ts-node/register -r tsconfig-paths/register --inspect src/index.ts",
+    "prettier:code-check": "prettier --check --no-error-on-unmatched-pattern --ignore-unknown ./**/*",
+    "prettier:fix": "prettier --write --no-error-on-unmatched-pattern --ignore-unknown ./**/*"
+  },
+  "author": "Gerardo Gimenez",
+  "license": "ISC",
+  "engines": {
+    "node": ">20.0.0",
+    "npm": ">10.0.0"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-openapi-validator": "^5.2.0",
+    "express-winston": "^4.2.0",
+    "helmet": "^7.1.0",
+    "swagger-ui-express": "^5.0.1",
+    "tsc-alias": "^1.8.10",
+    "winston": "^3.13.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.9",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@types/yamljs": "^0.2.34",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "fs-extra": "^11.2.0",
+    "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.7",
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.2",
+    "ts-jest": "^29.1.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.5.3"
+  },
+  "lint-staged": {
+    "*.{js,ts,css,md}": "prettier --write --no-error-on-unmatched-pattern --ignore-unknown",
+    "*.ts": "npm run lint --"
+  }
+}

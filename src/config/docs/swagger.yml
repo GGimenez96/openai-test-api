@@ -1,0 +1,221 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  termsOfService: 'http://swagger.io/terms/'
+  title: OpenAI Test API
+  license:
+    name: ISC
+  contact:
+    name: Gerardo Gimenez
+    email: geragimenez_96@hotmail.com
+paths:
+  '/test':
+    get:
+      tags:
+        - Test
+      summary: Endpoint example
+      description: Endpoint example. Remove in real projects.
+      operationId: test
+      responses:
+        '200':
+          $ref: '#/components/responses/ExampleResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '500':
+          $ref: '#/components/responses/InternalErrorResponse'
+servers:
+  - url: '{protocol}://{host}{baseUrl}/{apiVersion}'
+    description: Default
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+      host:
+        default: localhost:8080
+      baseUrl:
+        default: '/api'
+      apiVersion:
+        enum:
+          - 'v1'
+        default: 'v1'
+components:
+  responses:
+    StandardResponse:
+      description: Standard format for all API responses. The "data" property can be an array or an object.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StandardResponse'
+    BadRequestResponse:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+              - type: object
+                properties:
+                  status:
+                    example: 400
+                  message:
+                    example: The date is invalid
+    UnauthorizedResponse:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+              - type: object
+                properties:
+                  status:
+                    example: 401
+                  message:
+                    example: Invalid username or password
+    InternalErrorResponse:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+              - type: object
+                properties:
+                  status:
+                    example: 500
+                  message:
+                    example: Internal server error
+    ExampleResponse:
+      description: Example response based on the standard format. The "data" property can be an array or an object. The "pagination" property may be absent.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/StandardResponse'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Example'
+  schemas:
+    StandardResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          example: 200
+        message:
+          type: string
+          example: 'Successful operation'
+        data:
+          anyOf:
+            - type: object
+            - type: array
+      required:
+        - status
+        - message
+        - data
+    StandardResponseList:
+      allOf:
+        - $ref: '#/components/schemas/StandardResponse'
+        - type: object
+          properties:
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorItem'
+        status:
+          type: number
+          example: 500
+        message:
+          type: string
+          example: Internal server error
+    ErrorItem:
+      type: object
+      properties:
+        key:
+          type: string
+          example: error.message.key
+        message:
+          type: string
+          example: Error message example. Same as the outer 'message' property.
+    Pagination:
+      type: object
+      properties:
+        count:
+          type: number
+          example: 1
+        page:
+          type: number
+          example: 1
+        page_size:
+          type: number
+          example: 10
+    Example:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: John Doe
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      description: Page number
+      schema:
+        type: number
+        default: 1
+        minimum: 1
+    page_size:
+      name: page_size
+      in: query
+      description: Limit the number of results
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 10
+    sort:
+      name: sort
+      in: query
+      description: Attribute to sort by
+      schema:
+        type: string
+        example: name
+    sort_dir:
+      name: sort_dir
+      in: query
+      description: Sorting direction
+      schema:
+        type: string
+        enum:
+          - ASC
+          - DESC
