@@ -1,5 +1,5 @@
-import TestService from './test.service';
+import CompletionsService from './completions.service';
 
-const testService = new TestService();
+const completionsService = new CompletionsService();
 
-export { testService };
+export { completionsService };

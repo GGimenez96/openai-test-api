@@ -9,20 +9,21 @@ info:
     name: Gerardo Gimenez
     email: geragimenez_96@hotmail.com
 paths:
-  '/test':
-    get:
+  '/completions':
+    post:
       tags:
-        - Test
-      summary: Endpoint example
-      description: Endpoint example. Remove in real projects.
-      operationId: test
+        - Completions
+      summary: Generate a completion based on a prompt
+      description: This endpoint sends a prompt to the OpenAI API and retrieves a completion response.
+        For detailed parameters and usage, refer to the [OpenAI API Documentation](https://platform.openai.com/docs/api-reference/chat/create).
+      requestBody:
+        required: true
+        $ref: '#/components/requestBodies/PromptRequestBody'
       responses:
         '200':
-          $ref: '#/components/responses/ExampleResponse'
+          $ref: '#/components/responses/CompletionsResponse'
         '400':
           $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
         '500':
           $ref: '#/components/responses/InternalErrorResponse'
 servers:
@@ -43,6 +44,24 @@ servers:
           - 'v1'
         default: 'v1'
 components:
+  requestBodies:
+    PromptRequestBody:
+      required: true
+      description: Refer to the "Request body" section of the [OpenAI API Documentation](https://platform.openai.com/docs/api-reference/chat/create) to see available parameters.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              prompt:
+                type: string
+                description: The prompt text to send to the OpenAI API
+                example: "What is the capital of France?"
+              parameters:
+                type: object
+                description: Additional parameters for the OpenAI API.
+            required:
+              - prompt
   responses:
     StandardResponse:
       description: Standard format for all API responses. The "data" property can be an array or an object.
@@ -100,6 +119,17 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/Example'
+    CompletionsResponse:
+      description: Successful response with the generated completion
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/StandardResponse'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CompletionExample'
   schemas:
     StandardResponse:
       type: object
@@ -170,6 +200,25 @@ components:
           name:
             type: string
             example: John Doe
+    CompletionExample:
+      type: object
+      example:
+        id: "chatcmpl-123"
+        object: "chat.completion"
+        created: 1677652288
+        model: "gpt-3.5-turbo-0125"
+        system_fingerprint: "fp_44709d6fcb"
+        choices:
+          - index: 0
+            message:
+              role: "assistant"
+              content: "Hello there, how may I assist you today?"
+            logprobs: null
+            finish_reason: "stop"
+        usage:
+          prompt_tokens: 9
+          completion_tokens: 12
+          total_tokens: 21
   securitySchemes:
     bearerAuth:
       type: http

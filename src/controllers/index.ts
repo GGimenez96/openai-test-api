@@ -1,6 +1,6 @@
-import TestController from './test.controller';
-import { testService } from '../services';
+import CompletionsController from './completions.controller';
+import { completionsService } from '../services';
 
-const testController = new TestController(testService);
+const completionsController = new CompletionsController(completionsService);
 
-export { testController };
+export { completionsController };
