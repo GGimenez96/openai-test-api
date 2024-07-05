@@ -29,8 +29,14 @@ To start a new project using this template, follow these steps:
 1. Clone the repository: `git clone [URL]`
 2. Navigate to the project directory: `cd [folder name]`
 3. Install dependencies: `npm install`
-4. Start the development server: `npm start`
-5. Open your browser and go to `http://localhost:8080/api-docs` to access the Swagger UI that contains the API documentation.
+4. Set valid values to environment variables in .env file. Refer to the "Environment configuration" settings for more information.
+5. Start the development server: `npm start`
+6. Open your browser and go to `http://localhost:8080/api-docs` to access the Swagger UI that contains the API documentation.
+
+## Environment configuration
+- `NODE_ENV`: The environment in which the server is running. Possible values are `development` and `production`.
+- `PORT`: The port number on which the server will listen.
+- `OPENAI_API_KEY`: The API key for accessing the OpenAI API.
 
 ## Scripts
 
