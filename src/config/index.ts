@@ -19,4 +19,5 @@ export default {
   DOCS_ENDPOINT: '/api-docs',
   DIR_SWAGGER: './src/config/docs/swagger.yml',
   DIR_ERRORS: './src/config/errors/error.yml',
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? '',
 };

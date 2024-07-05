@@ -18,7 +18,7 @@ paths:
         For detailed parameters and usage, refer to the [OpenAI API Documentation](https://platform.openai.com/docs/api-reference/chat/create).
       requestBody:
         required: true
-        $ref: '#/components/requestBodies/PromptRequestBody'
+        $ref: '#/components/requestBodies/CompletionRequestBody'
       responses:
         '200':
           $ref: '#/components/responses/CompletionsResponse'
@@ -45,23 +45,12 @@ servers:
         default: 'v1'
 components:
   requestBodies:
-    PromptRequestBody:
+    CompletionRequestBody:
       required: true
-      description: Refer to the "Request body" section of the [OpenAI API Documentation](https://platform.openai.com/docs/api-reference/chat/create) to see available parameters.
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              prompt:
-                type: string
-                description: The prompt text to send to the OpenAI API
-                example: "What is the capital of France?"
-              parameters:
-                type: object
-                description: Additional parameters for the OpenAI API.
-            required:
-              - prompt
+            $ref: '#/components/schemas/CompletionRequest'
   responses:
     StandardResponse:
       description: Standard format for all API responses. The "data" property can be an array or an object.
@@ -219,6 +208,41 @@ components:
           prompt_tokens: 9
           completion_tokens: 12
           total_tokens: 21
+    CompletionRequest:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatCompletionMessage'
+          default:
+            - role: user
+              content: "What is the capital of France?"
+        model:
+          type: string
+          default: gpt-3.5-turbo
+        temperature:
+          type: number
+          example: 0.7
+          default: 1
+          minimum: 0
+          maximum: 2
+    ChatCompletionMessage:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+            - system
+            - user
+            - assistant
+            - tool
+        content:
+          type: string
+          example: "Hello there, how may I assist you today?"
+        name:
+          type: string
+          example: John Doe
   securitySchemes:
     bearerAuth:
       type: http
