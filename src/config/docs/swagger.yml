@@ -26,6 +26,24 @@ paths:
           $ref: '#/components/responses/BadRequestResponse'
         '500':
           $ref: '#/components/responses/InternalErrorResponse'
+  '/gemini/completions':
+    post:
+      tags:
+        - Gemini
+      summary: Generate a completion based on a prompt
+      description: |
+        This endpoint sends a prompt to the Google Gemini API and retrieves a generated completion.
+        For detailed parameters and usage, refer to the [Google Gemini API Documentation](https://ai.google.dev/gemini-api/docs).
+      requestBody:
+        required: true
+        $ref: '#/components/requestBodies/GeminiCompletionsRequestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/GeminiCompletionsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '500':
+          $ref: '#/components/responses/InternalErrorResponse'
 servers:
   - url: '{protocol}://{host}{baseUrl}/{apiVersion}'
     description: Default
@@ -51,6 +69,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CompletionRequest'
+    GeminiCompletionsRequestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeminiCompletionRequest'
   responses:
     StandardResponse:
       description: Standard format for all API responses. The "data" property can be an array or an object.
@@ -119,6 +143,13 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/CompletionExample'
+    GeminiCompletionsResponse:
+      description: Successful response with the generated completion from Google Gemini API
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/StandardResponse'
   schemas:
     StandardResponse:
       type: object
@@ -227,6 +258,15 @@ components:
           default: 1
           minimum: 0
           maximum: 2
+    GeminiCompletionRequest:
+      type: object
+      properties:
+        prompt:
+          type: string
+          example: "What is the capital of France?"
+        jsonMode:
+          type: boolean
+          default: false
     ChatCompletionMessage:
       type: object
       properties:
