@@ -12,7 +12,7 @@ paths:
   '/completions':
     post:
       tags:
-        - Completions
+        - OpenAI
       summary: Generate a completion based on a prompt
       description: This endpoint sends a prompt to the OpenAI API and retrieves a completion response.
         For detailed parameters and usage, refer to the [OpenAI API Documentation](https://platform.openai.com/docs/api-reference/chat/create).
