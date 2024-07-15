@@ -14,6 +14,16 @@ class CompletionsController {
       return next(err);
     }
   };
+
+  generateGeminiCompletion = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { prompt, jsonMode } = req.body;
+      const data = await this.completionsService.generateGeminiCompletion(prompt, jsonMode);
+      return res.json(prepareResponse(200, null, data));
+    } catch (err) {
+      return next(err);
+    }
+  };
 }
 
 export default CompletionsController;

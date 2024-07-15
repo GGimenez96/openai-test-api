@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { openAiApiService } from '@/services';
+import { geminiApiService, openAiApiService } from '@/services';
 import logger from '@/utils/logger';
 
 class CompletionsService {
@@ -12,6 +12,15 @@ class CompletionsService {
       return await openAiApiService.createChatCompletion(messages, model, temperature);
     } catch (error) {
       logger.error('Error at CompletionsService.generateCompletion', error);
+      throw error;
+    }
+  }
+
+  async generateGeminiCompletion(prompt: string, jsonMode = false) {
+    try {
+      return await geminiApiService.generateContent(prompt, jsonMode);
+    } catch (error) {
+      logger.error('Error at CompletionsService.generateGeminiCompletion', error);
       throw error;
     }
   }
