@@ -1,5 +1,5 @@
-import GeminiApiService from '@/services/open-ai/gemini-api.service';
-import OpenAiApiService from '@/services/open-ai/open-ai-api.service';
+import GeminiApiService from '@/services/external/gemini-api.service';
+import OpenAiApiService from '@/services/external/open-ai-api.service';
 import CompletionsService from './completions.service';
 
 const completionsService = new CompletionsService();
