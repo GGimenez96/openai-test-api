@@ -19,12 +19,14 @@ class OpenAiApiService {
   async createChatCompletion(
     messages: OpenAI.ChatCompletionMessageParam[],
     model: OpenAI.ChatModel = 'gpt-3.5-turbo',
-    temperature: number = 1
+    temperature = 1,
+    jsonMode = false,
   ) {
     const completion = await this.openAi.chat.completions.create({
       messages,
       model,
       temperature,
+      response_format: { type: jsonMode ? 'json_object' : 'text' },
     });
     return completion;
   }

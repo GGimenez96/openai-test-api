@@ -7,8 +7,8 @@ class CompletionsController {
 
   generateCompletion = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { messages, model, temperature } = req.body;
-      const data = await this.completionsService.generateCompletion(messages, model, temperature);
+      const { messages, model, temperature, jsonMode } = req.body;
+      const data = await this.completionsService.generateCompletion(messages, model, temperature, jsonMode);
       return res.json(prepareResponse(200, null, data));
     } catch (err) {
       return next(err);

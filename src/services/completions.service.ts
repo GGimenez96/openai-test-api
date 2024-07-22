@@ -6,10 +6,11 @@ class CompletionsService {
   async generateCompletion(
     messages: OpenAI.ChatCompletionMessageParam[],
     model: OpenAI.ChatModel = 'gpt-3.5-turbo',
-    temperature = 1
+    temperature = 1,
+    jsonMode = false,
   ) {
     try {
-      return await openAiApiService.createChatCompletion(messages, model, temperature);
+      return await openAiApiService.createChatCompletion(messages, model, temperature, jsonMode);
     } catch (error) {
       logger.error('Error at CompletionsService.generateCompletion', error);
       throw error;

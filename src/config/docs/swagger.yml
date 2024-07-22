@@ -258,6 +258,9 @@ components:
           default: 1
           minimum: 0
           maximum: 2
+        jsonMode:
+          type: boolean
+          default: false
     GeminiCompletionRequest:
       type: object
       properties:
