@@ -270,6 +270,12 @@ components:
         jsonMode:
           type: boolean
           default: false
+        model:
+          type: string
+          enum:
+            - gemini-1.5-flash
+            - gemini-1.5-pro
+          default: gemini-1.5-flash
     ChatCompletionMessage:
       type: object
       properties:

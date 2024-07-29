@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import config from '@/config';
+import { GeminiModels } from '@/models/enums/gemini-models';
 
 class GeminiApiService {
   private genAI: GoogleGenerativeAI;
@@ -27,13 +28,13 @@ class GeminiApiService {
    * @param jsonMode - Whether to return the content as JSON.
    * @return The generated content.
    */
-  async generateContent(prompt: string, jsonMode = false) {
-    const model = this.genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+  async generateContent(prompt: string, model = GeminiModels.GEMINI_1_5_FLASH, jsonMode = false) {
+    const genModel = this.genAI.getGenerativeModel({
+      model,
       generationConfig: { responseMimeType: jsonMode ? 'application/json' : 'text/plain' },
     });
     const curatedPrompt = prompt.toLowerCase() === 'testjson' && jsonMode ? this.testJsonPrompt : prompt;
-    const result = await model.generateContent(curatedPrompt);
+    const result = await genModel.generateContent(curatedPrompt);
     return {
       content: result.response.text(),
       usageMetadata: result.response.usageMetadata,
